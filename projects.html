@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ar" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="projects">المشاريع - وليد سيغا</title>
+    <link rel="icon" href="img/logo-img/1.png">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Projects Page Specific Styles */
+        .projects-header {
+            padding: 6rem 5% 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .projects-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        .projects-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+            position: relative;
+        }
+
+        .projects-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 0.2s;
+            position: relative;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            transform-style: preserve-3d;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-image::after {
+            opacity: 1;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .dev-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+            box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+            }
+        }
+
+        .project-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-title::after {
+            width: 100%;
+        }
+
+        .project-description {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: var(--background-color);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .project-link:hover::before {
+            left: 100%;
+        }
+
+        .project-link.primary {
+            background: var(--primary-color);
+            color: white;
+            animation: glow 2s infinite;
+        }
+
+        .project-link.secondary {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .project-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .back-to-home {
+            text-align: center;
+            padding: 2rem 5%;
+        }
+
+        .back-to-home .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-to-home .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .back-to-home .btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 5%;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع المظلم">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header>
+        <nav>
+            <div class="logo-container">
+                <img src="img/logo-img/3.png" alt="Logo" class="logo">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i><span data-translate="home">الرئيسية</span></a></li>
+                <li><a href="projects.html" class="active"><i class="fas fa-project-diagram"></i><span data-translate="projects">المشاريع</span></a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button id="lang-en" class="language-btn">En</button>
+                    <button id="lang-ar" class="language-btn active-lang">Ar</button>
+                </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="projects-header">
+            <h1 data-translate="myProjects">مشاريعي</h1>
+            <p data-translate="projectsDescription">استكشف أحدث مشاريعي في تطوير الويب وتصميم واجهات المستخدم</p>
+        </section>
+
+            <div class="projects-grid">
+            <!-- E-commerce Project -->
+                <div class="project-card">
+                <img src="img/projects/ecommerce.jpg" alt="متجر إلكتروني" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">متجر إلكتروني</h3>
+                    <p class="project-description">متجر إلكتروني متكامل مع نظام إدارة المنتجات، سلة تسوق، ومعالجة المدفوعات. تم تطويره باستخدام  html, css,js.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">html5</span>
+                        <span class="tech-tag">css3</span>
+                        <span class="tech-tag">js</span>
+                        <!-- <span class="tech-tag">Redux</span> -->
+                        </div>
+                    <div class="project-links">
+                        <a href="https://idyllic-marzipan-5d97d9.netlify.app/" target="_blank" class="project-link primary" data-translate="viewProject">عرض المشروع</a>
+                        <!-- <a href="https://github.com/username/ecommerce" target="_blank" class="project-link secondary" data-translate="viewCode">عرض الكود</a> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Platform -->
+                <div class="project-card">
+                <img src="img/projects/education.jpg" alt="منصة تعليمية" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">منصة تعليمية <span class="dev-badge">قيد التطوير</span></h3>
+                    <p class="project-description">منصة تعليمية متكاملة مع نظام إدارة المحتوى، اختبارات تفاعلية، وتتبع التقدم. تم تطويره باستخدام React و Firebase مع واجهة مستخدم Material UI.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Firebase</span>
+                        <!-- <span class="tech-tag">Material UI</span> -->
+                        <span class="tech-tag">node-js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://diyar-harb.github.io/syria-acad" target="_blank" class="project-link primary" data-translate="viewProject">عرض المشروع</a>
+                        <!-- <a href="https://github.com/username/education" target="_blank" class="project-link secondary" data-translate="viewCode">عرض الكود</a> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Sharing Platform -->
+                <div class="project-card">
+                <img src="img/projects/files.jpg" alt="منصة مشاركة الملفات" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">منصة مشاركة الملفات</h3>
+                    <p class="project-description">منصة متطورة لمشاركة وتحميل الملفات مع نظام إدارة المستخدمين وتتبع النشاط. تم تطويره باستخدام HTML5 و CSS3 و JavaScript النقي.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">LocalStorage</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://waleed-seagha.github.io/example2/" target="_blank" class="project-link primary" data-translate="viewProject">عرض المشروع</a>
+                        <!-- <a href="https://github.com/username/files" target="_blank" class="project-link secondary" data-translate="viewCode">عرض الكود</a> -->
+                    </div>
+                </div>
+                        </div>
+                    </div>
+
+        <div class="back-to-home">
+            <a href="index.html" class="btn btn-primary" data-translate="backToHome">العودة للرئيسية</a>
+        </div>
+    </main>
+
+    <!-- <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-translate="aboutSite">عن الموقع</h3>
+                <p>موقع شخصي يعرض أعمالي ومشاريعي في مجال تطوير الويب</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-translate="quickLinks">روابط سريعة</h3>
+                <ul>
+                    <li><a href="index.html" data-translate="home">الرئيسية</a></li>
+                    <li><a href="projects.html" data-translate="projects">المشاريع</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-translate="connectWithMe">تواصل معي</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=100014515637669" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/waleed_seagha/profilecard/?igsh=MXRvYmljbTVkaXB5bg==" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="tel:0948530541"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Waleed Seagha - <span data-translate="rightsReserved">جميع الحقوق محفوظة</span></p>
+    </div>
+    </footer> -->
+
+    <script src="js/translations.js"></script>
+    <script src="js/language-switcher.js"></script>
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+
+        // Set initial theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
