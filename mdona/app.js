@@ -77,7 +77,7 @@ async function loadPosts() {
   if (!container) return;
   container.innerHTML = '<div class="loader"><div class="loading-spinner"></div> جاري تحميل التدوينات...</div>';
   try {
-    const res = await fetch('public/data/posts.json');
+    const res = await fetch('https://me-txd9.onrender.com/api/posts');
     const data = await res.json();
     allPosts = data.posts;
     filteredPosts = allPosts;

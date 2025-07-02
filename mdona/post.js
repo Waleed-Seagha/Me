@@ -73,7 +73,7 @@ async function loadPost() {
     return;
   }
   try {
-    const res = await fetch('public/data/posts.json');
+    const res = await fetch('https://me-txd9.onrender.com/api/posts');
     const data = await res.json();
     const posts = data.posts;
     const post = posts.find(p => p.id === id);
