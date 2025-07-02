@@ -159,6 +159,7 @@ img {
     .profile-image {
         width: 100px;
         height: 100px;
+        margin: 0px;
     }
     
     .gallery-image {
