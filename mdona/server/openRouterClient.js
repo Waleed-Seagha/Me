@@ -34,9 +34,13 @@ async function generateWithOpenRouter(prompt, systemPrompt) {
     return response.data.choices[0].message.content.trim();
   } catch (error) {
     if (error.response) {
-      console.error('Error calling OpenRouter API:', error.response.data);
+      console.error('OpenRouter API error status:', error.response.status);
+      console.error('OpenRouter API error data:', error.response.data);
+      console.error('OpenRouter API error headers:', error.response.headers);
+    } else if (error.request) {
+      console.error('No response received from OpenRouter API:', error.request);
     } else {
-      console.error('Error calling OpenRouter API:', error.message);
+      console.error('Error setting up OpenRouter API request:', error.message);
     }
     throw new Error('Failed to generate content from OpenRouter API');
   }
