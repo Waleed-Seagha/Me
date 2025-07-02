@@ -653,4 +653,175 @@ footer {
     max-width: 98vw;
     padding: 1em 0.5em;
   }
+}
+
+/* ========== Color Picker FAB & Popover ========== */
+.color-picker-fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 4px 18px rgba(18,249,6,0.18), 0 1.5px 6px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  margin-right: 0.5em;
+}
+.color-picker-fab:hover {
+  box-shadow: 0 8px 32px rgba(18,249,6,0.28), 0 2px 12px rgba(0,0,0,0.13);
+  transform: scale(1.08) rotate(-3deg);
+}
+.color-picker-fab svg {
+  filter: drop-shadow(0 0 6px var(--primary-color));
+}
+
+.color-popover {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s;
+  opacity: 0;
+  pointer-events: none;
+}
+.color-popover.open {
+  opacity: 1;
+  pointer-events: all;
+  background: rgba(0,0,0,0.32);
+  animation: fadeIn 0.25s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.color-popover-content {
+  min-width: 320px;
+  max-width: 95vw;
+  background: rgba(255,255,255,0.22);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(18,249,6,0.13), 0 2px 12px rgba(0,0,0,0.10);
+  padding: 2.2em 1.5em 1.5em 1.5em;
+  position: relative;
+  backdrop-filter: blur(18px) saturate(1.2);
+  border: 1.5px solid rgba(18,249,6,0.13);
+  animation: popIn 0.33s cubic-bezier(.4,2,.6,1);
+}
+@keyframes popIn {
+  from { transform: scale(0.85) translateY(40px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+.glassmorph {
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(18px) saturate(1.2);
+  border: 1.5px solid rgba(18,249,6,0.13);
+}
+.color-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.13em;
+  margin-bottom: 1.2em;
+  color: var(--primary-color);
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.7em;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s;
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+}
+.close-btn:hover {
+  color: var(--primary-color);
+  background: rgba(18,249,6,0.08);
+}
+.color-wheel-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+  margin-bottom: 1.2em;
+  justify-content: center;
+}
+#color-primary-picker {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  box-shadow: 0 2px 8px rgba(18,249,6,0.10);
+  background: transparent;
+  cursor: pointer;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+#color-primary-picker:hover {
+  border: 3px solid var(--secondary-color);
+  box-shadow: 0 4px 16px rgba(18,249,6,0.18);
+}
+.color-preview {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #eee;
+  box-shadow: 0 2px 8px rgba(18,249,6,0.10);
+  background: var(--primary-color);
+  transition: background 0.2s, border 0.2s;
+}
+.suggested-colors {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 0.7em;
+  justify-content: center;
+}
+.suggested-color {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 8px rgba(18,249,6,0.10);
+  cursor: pointer;
+  transition: border 0.2s, transform 0.2s;
+  outline: 2px solid rgba(18,249,6,0.08);
+}
+.suggested-color:hover {
+  border: 2.5px solid var(--primary-color);
+  transform: scale(1.13);
+  outline: 2.5px solid var(--primary-color);
+}
+.color-tip {
+  margin-top: 1.2em;
+  font-size: 0.98em;
+  color: #666;
+  text-align: center;
+  opacity: 0.85;
+}
+@media (max-width: 600px) {
+  .color-popover-content {
+    min-width: 90vw;
+    padding: 1.2em 0.3em 1em 0.3em;
+  }
+  .color-wheel-row {
+    flex-direction: column;
+    gap: 0.7em;
+  }
+  #color-primary-picker {
+    width: 48px;
+    height: 48px;
+  }
+  .color-preview {
+    width: 32px;
+    height: 32px;
+  }
+  .suggested-color {
+    width: 26px;
+    height: 26px;
+  }
 } 

@@ -26,6 +26,48 @@
           🌙
         </button>
       </div>
+      <div class="color-picker-fab" id="color-fab" title="تخصيص ألوان المدونة">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="wheelGradient" cx="0.5" cy="0.5" r="0.7">
+              <stop offset="0%" stop-color="#fff" stop-opacity="0.7"/>
+              <stop offset="60%" stop-color="#12F906"/>
+              <stop offset="80%" stop-color="#0D9B0A"/>
+              <stop offset="100%" stop-color="#00C3FF"/>
+            </radialGradient>
+            <linearGradient id="shine" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fff" stop-opacity="0.7"/>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <circle cx="14" cy="14" r="12" fill="url(#wheelGradient)" stroke="#fff" stroke-width="2.2"/>
+          <ellipse cx="14" cy="10" rx="7" ry="3.2" fill="url(#shine)"/>
+          <circle cx="14" cy="14" r="5.2" fill="#fff" fill-opacity="0.7"/>
+          <circle cx="14" cy="14" r="3.2" fill="#12F906" stroke="#0D9B0A" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="color-popover" id="color-popover" style="display:none;">
+        <div class="color-popover-content glassmorph">
+          <div class="color-popover-header">
+            <span>تخصيص ألوان المدونة</span>
+            <button id="close-color-popover" title="إغلاق" class="close-btn">×</button>
+          </div>
+          <div class="color-wheel-row">
+            <input type="color" id="color-primary-picker" title="اختر لونك الرئيسي" />
+            <div class="color-preview" id="color-preview"></div>
+          </div>
+          <div class="suggested-colors">
+            <span class="suggested-color" data-color="#12F906" style="background:#12F906;"></span>
+            <span class="suggested-color" data-color="#0D9B0A" style="background:#0D9B0A;"></span>
+            <span class="suggested-color" data-color="#00C3FF" style="background:#00C3FF;"></span>
+            <span class="suggested-color" data-color="#FF6B6B" style="background:#FF6B6B;"></span>
+            <span class="suggested-color" data-color="#FFB800" style="background:#FFB800;"></span>
+            <span class="suggested-color" data-color="#8F00FF" style="background:#8F00FF;"></span>
+          </div>
+          <button id="reset-color-btn" class="btn btn-secondary" style="margin-top:1em;">إعادة اللون الافتراضي</button>
+          <div class="color-tip">تخصيصك يبقى محفوظًا في جهازك</div>
+        </div>
+      </div>
     </div>
   </header>
   <main>
@@ -74,6 +116,83 @@
         document.getElementById('admin-login-msg').textContent = 'كلمة المرور غير صحيحة';
       }
     };
+    // تخصيص اللون العصري
+    const fab = document.getElementById('color-fab');
+    const popover = document.getElementById('color-popover');
+    const closeBtn = document.getElementById('close-color-popover');
+    const colorPicker = document.getElementById('color-primary-picker');
+    const colorPreview = document.getElementById('color-preview');
+    const suggested = document.querySelectorAll('.suggested-color');
+    const resetBtn = document.getElementById('reset-color-btn');
+    // استرجاع اللون من localStorage إذا وُجد
+    const savedColor = localStorage.getItem('custom-primary-color');
+    if(savedColor) {
+      document.documentElement.style.setProperty('--primary-color', savedColor);
+      document.documentElement.style.setProperty('--gradient-start', savedColor);
+      colorPicker.value = savedColor;
+      colorPreview.style.background = savedColor;
+    } else {
+      colorPreview.style.background = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+    }
+    fab.onclick = function() {
+      popover.style.display = 'block';
+      setTimeout(()=>popover.classList.add('open'),10);
+    };
+    closeBtn.onclick = function() {
+      popover.classList.remove('open');
+      setTimeout(()=>popover.style.display='none',200);
+    };
+    popover.onclick = function(e) {
+      if(e.target === popover) {
+        popover.classList.remove('open');
+        setTimeout(()=>popover.style.display='none',200);
+      }
+    };
+    colorPicker.addEventListener('input', function(e) {
+      const color = e.target.value;
+      document.documentElement.style.setProperty('--primary-color', color);
+      document.documentElement.style.setProperty('--gradient-start', color);
+      const darker = tinycolor(color).darken(25).toString();
+      document.documentElement.style.setProperty('--secondary-color', darker);
+      document.documentElement.style.setProperty('--gradient-end', darker);
+      colorPreview.style.background = color;
+      localStorage.setItem('custom-primary-color', color);
+      localStorage.setItem('custom-secondary-color', darker);
+    });
+    suggested.forEach(el=>{
+      el.onclick = function() {
+        const color = el.getAttribute('data-color');
+        colorPicker.value = color;
+        colorPicker.dispatchEvent(new Event('input'));
+      };
+    });
+    resetBtn.onclick = function() {
+      localStorage.removeItem('custom-primary-color');
+      localStorage.removeItem('custom-secondary-color');
+      document.documentElement.style.setProperty('--primary-color', '#12F906');
+      document.documentElement.style.setProperty('--gradient-start', '#12F906');
+      document.documentElement.style.setProperty('--secondary-color', '#0D9B0A');
+      document.documentElement.style.setProperty('--gradient-end', '#0D9B0A');
+      colorPicker.value = '#12F906';
+      colorPreview.style.background = '#12F906';
+    };
+    // tinycolor.js (مكتبة صغيرة لتوليد لون أغمق)
+    function tinycolor(color) {
+      let c = color.replace('#','');
+      if(c.length===3) c = c[0]+c[0]+c[1]+c[1]+c[2]+c[2];
+      let r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
+      return {
+        darken: function(amt) {
+          r = Math.max(0, r-amt);
+          g = Math.max(0, g-amt);
+          b = Math.max(0, b-amt);
+          return `rgb(${r},${g},${b})`;
+        },
+        toString: function() {
+          return `rgb(${r},${g},${b})`;
+        }
+      };
+    }
   </script>
 </body>
 
