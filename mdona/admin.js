@@ -5,7 +5,7 @@ async function loadAdminPosts() {
   const tbody = document.getElementById('admin-posts-list');
   tbody.innerHTML = '<tr><td colspan="4">جاري التحميل...</td></tr>';
   try {
-    const res = await fetch('public/data/posts.json');
+    const res = await fetch(`${API_BASE}/api/posts`);
     const data = await res.json();
     tbody.innerHTML = '';
     data.posts.forEach(post => {
@@ -61,7 +61,7 @@ async function deletePost(id) {
 // تعبئة نموذج التعديل
 async function editPost(id) {
   try {
-    const res = await fetch('public/data/posts.json');
+    const res = await fetch(`${API_BASE}/api/posts`);
     const data = await res.json();
     const post = data.posts.find(p => p.id === id);
     if (!post) return;

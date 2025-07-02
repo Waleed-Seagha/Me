@@ -109,6 +109,17 @@ app.put('/api/edit-post/:id', (req, res) => {
   }
 });
 
+// API endpoint to get all posts
+app.get('/api/posts', (req, res) => {
+  try {
+    const rawData = fs.readFileSync(POSTS_FILE);
+    const data = JSON.parse(rawData);
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to load posts' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
