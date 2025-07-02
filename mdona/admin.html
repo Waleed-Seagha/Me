@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة إدارة المدونة</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .admin-table th, .admin-table td { padding: 0.7em 1em; border-bottom: 1px solid #eee; }
+    .admin-table th { background: var(--background-color); color: var(--primary-color); }
+    .admin-table { width: 100%; border-collapse: collapse; margin-top: 2em; }
+    .admin-actions button { margin-left: 0.5em; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em; }
+    .admin-header h1 { margin: 0; }
+    .admin-form input, .admin-form textarea { width: 100%; margin-bottom: 1em; padding: 0.7em; border-radius: 8px; border: 1px solid #ccc; font-size: 1em; }
+    .admin-form label { font-weight: bold; margin-bottom: 0.3em; display: block; }
+    .admin-form { max-width: 600px; margin: 2em auto; background: var(--background-color); padding: 2em; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .admin-form .btn { width: 100%; }
+    .admin-msg { margin: 1em 0; color: green; font-weight: bold; }
+    .admin-error { margin: 1em 0; color: red; font-weight: bold; }
+  </style>
+</head>
+<body class="smooth-scroll dark">
+  <header style="border-bottom:1px solid var(--border-color);background:var(--background-color);box-shadow:0 4px 15px rgba(18,249,6,0.15);position:sticky;top:0;z-index:10;">
+    <div class="container admin-header">
+      <h1>لوحة إدارة المدونة</h1>
+      <a href="index.html" class="btn btn-secondary">← العودة للمدونة</a>
+    </div>
+  </header>
+  <main class="container">
+    <section>
+      <h2>جميع التدوينات</h2>
+      <table class="admin-table">
+        <thead>
+          <tr><th>العنوان</th><th>تاريخ النشر</th><th>وسوم</th><th>إجراءات</th></tr>
+        </thead>
+        <tbody id="admin-posts-list"></tbody>
+      </table>
+    </section>
+    <section>
+      <h2 style="margin-top:2.5em;">توليد تدوينة جديدة</h2>
+      <button id="generate-post-btn" class="btn btn-primary" style="padding:0.7em 2em;font-size:1.1em;">توليد تلقائي من الذكاء الاصطناعي</button>
+      <div id="generate-msg" class="admin-msg"></div>
+    </section>
+    <section>
+      <h2 style="margin-top:2.5em;">تعديل تدوينة</h2>
+      <form id="edit-post-form" class="admin-form" style="display:none;">
+        <input type="hidden" id="edit-id" />
+        <label for="edit-title">العنوان</label>
+        <input id="edit-title" required />
+        <label for="edit-content">المحتوى</label>
+        <textarea id="edit-content" rows="7" required></textarea>
+        <label for="edit-tags">الوسوم (مفصولة بفاصلة)</label>
+        <input id="edit-tags" />
+        <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+        <button type="button" id="cancel-edit" class="btn btn-secondary" style="margin-top:0.7em;">إلغاء</button>
+        <div id="edit-msg" class="admin-msg"></div>
+        <div id="edit-error" class="admin-error"></div>
+      </form>
+    </section>
+  </main>
+  <footer style="border-top:1px solid var(--border-color);padding:2rem 0;text-align:center;background:var(--background-color);margin-top:2rem;">
+    <div class="container">
+      <span class="text-gradient neon-text">لوحة إدارة المدونة © وليد صياغة</span>
+    </div>
+  </footer>
+  <script src="admin.js"></script>
+</body>
+</html> 

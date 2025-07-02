@@ -59,6 +59,7 @@ img {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--color1);
+    margin: 100px;
 }
 
 /* Gallery Images */
